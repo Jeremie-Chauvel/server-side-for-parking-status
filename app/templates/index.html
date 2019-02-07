@@ -9,16 +9,40 @@
     </head>
     <body>
             {% for alle in parking %}
-                {% if alle.place %}
-                    <h1>Le nombre de place disponible dans l'<span class="alle">allé {{ alle.id }}</span> est : <span class="place">{{ alle.place }} places</span>.</h1>
-                {% else %}
-                    <h1>Il n'y a <span class="place">plus de place</span> dans l'<span class="alle">allé {{ alle.id }}</span> !</h1>
-                {% endif %}
+                
+                    <h1>Le nombre de place disponible dans l'<span class="alle"  >allé {{ alle.id }}</span> est : <span class="place", id="place{{ alle.id }}">{{ alle.place }} places</span>.</h1>
+                
             {% endfor %}
         
         <img src="{{url_for('static', filename='parking-vide.png')}}" alt="parking background image">
+        
 
+        <script>
+           window.onload = (function(){
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                decode_parking_status(JSON.parse(this.responseText));
+                }
+                };
+            xhttp.open("GET", "get_update", true);
+            xhttp.send();
 
+            setTimeout(arguments.callee, 1000);
+            })();
 
+            function decode_parking_status(parking_status){
+                
+                for (let k = 0; k < parking_status.length; k++) {
+                    const element = parking_status[k];
+                    if (element["place"] > 1){
+                        document.getElementById("place"+(k+1)).innerHTML = element["place"]+" places";
+                    }else{
+                        document.getElementById("place"+(k+1)).innerHTML = element["place"]+" place";
+                    }
+                }
+                
+            }
+        </script>
     </body>
 </html>
