@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>Car parking assist</title>
+        <style>
+                body {background-color: rgb(163, 163, 163);}
+                span.alle   {color: rgb(255, 251, 0);}
+                span.place    {color: red;}
+                </style>
+    </head>
+    <body>
+            {% for alle in parking %}
+                {% if alle.place %}
+                    <h1>Le nombre de place disponible dans l'<span class="alle">allé {{ alle.id }}</span> est : <span class="place">{{ alle.place }} places</span>.</h1>
+                {% else %}
+                    <h1>Il n'y a <span class="place">plus de place</span> dans l'<span class="alle">allé {{ alle.id }}</span> !</h1>
+                {% endif %}
+            {% endfor %}
+        
+        <img src="{{url_for('static', filename='parking-vide.png')}}" alt="parking background image">
+
+
+
+    </body>
+</html>
