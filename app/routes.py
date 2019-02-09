@@ -1,6 +1,5 @@
 from flask import render_template
 import json
-import requests
 from app import app
 
 url = "localhost:5000/parking_update"
