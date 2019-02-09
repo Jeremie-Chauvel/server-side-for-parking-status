@@ -2,8 +2,6 @@ from flask import render_template
 import json
 from app import app
 
-url = "localhost:5000/parking_update"
-
 parking = [
         {
             "id": 1,
