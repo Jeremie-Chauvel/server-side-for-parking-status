@@ -15,22 +15,37 @@ parking = [
             "place": 0
             }
     ]
-
+parking_status = [
+        {
+            "id": 1,
+            "stat": "000"
+            },
+        {
+            "id": 2,
+            "stat": "111"
+            }
+    ]
 @app.route('/')
 @app.route('/index')
 def index():
     
     return render_template('index.html', parking=parking)
 
-@app.route('/update/<int:id_>/<int:place>', methods=['GET', 'POST'])
-def update(id_, place):
+@app.route('/update/<int:id_>/<alle_stat>', methods=['GET', 'POST'])
+def update(id_, alle_stat):
     """requete pour mettre à jour le nombre de palce dans une allé"""
-    if id_ in (1,2) and place in (0,1,2,3):
-        parking[id_-1]["place"] = place
-    return json.dumps(parking)
+    if id_ in (1,2) and len(alle_stat) == 3 and ("1" in alle_stat or "0" in alle_stat):
+        parking[id_-1]["place"] = convert_to_place(alle_stat)
+        parking_status[id_-1]["stat"] = alle_stat
+    return json.dumps(parking_status)
 
 @app.route('/get_update', methods=['GET'])
 def get_update():
     """requete pour recuperer l'état des allés"""
-    return json.dumps(parking)
+    return json.dumps(parking_status)
 
+def convert_to_place(alle_stat):
+    place = 3
+    for k in alle_stat:
+        place -= int(k)
+    return place
